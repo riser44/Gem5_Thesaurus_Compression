@@ -325,6 +325,21 @@ class ZeroCompressor(BaseDictionaryCompressor):
     decomp_chunks_per_cycle = 8 * Self.block_size / Self.chunk_size_bits
     decomp_extra_latency = 0
 
+class ThesaurusCompressor(BaseCacheCompressor):
+    type = "ThesaurusCompressor"
+    cxx_class = "gem5::compression::Thesaurus"
+    cxx_header = "mem/cache/compressors/thesaurus.hh"
+
+    chunk_size_bits = 64
+
+    max_compression_ratio = Param.Int("Maximum compression ratio allowed")
+
+    # In a perfect world compression and decompression happen in 1 cycle
+    comp_chunks_per_cycle = 8 * Self.block_size / Self.chunk_size_bits
+    comp_extra_latency = 0
+    decomp_chunks_per_cycle = 8 * Self.block_size / Self.chunk_size_bits
+    decomp_extra_latency = 0
+
 
 class BDI(MultiCompressor):
     compressors = [

@@ -79,6 +79,7 @@ Cache::satisfyRequest(PacketPtr pkt, CacheBlk *blk,
                       bool deferred_response, bool pending_downgrade)
 {
     BaseCache::satisfyRequest(pkt, blk);
+    printf("If data value traced:%hhn",blk->data);
 
     if (pkt->isRead()) {
         // determine if this read is from a (coherent) cache or not
@@ -161,6 +162,7 @@ bool
 Cache::access(PacketPtr pkt, CacheBlk *&blk, Cycles &lat,
               PacketList &writebacks)
 {
+ //   printf("Show data, debug mode:%s",blk->data);
 
     if (pkt->req->isUncacheable()) {
         assert(pkt->isRequest());
@@ -1214,8 +1216,6 @@ Cache::handleSnoop(PacketPtr pkt, CacheBlk *blk, bool is_timing,
 
         if (is_timing) {
             doTimingSupplyResponse(pkt, blk->data, is_deferred, pending_inval);
-            // jagdish
-            printf("Show data, if is_timing is 1:%s",blk->data);
         } else {
             pkt->makeAtomicResponse();
             // packets such as upgrades do not actually have any data
